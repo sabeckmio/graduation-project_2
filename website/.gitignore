@@ -1,1 +1,6 @@
 node_modules
+# 깃허브 pull 할때
+# git pull origin main
+
+dev.js
+prod.js
