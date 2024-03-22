@@ -23,7 +23,11 @@ app.get("/", (req, res) => {
   res.send("테스트");
 });
 
-app.post("/users/register", (req, res) => {
+app.get("/api/hello", (req, res) => {
+  res.send("hello");
+});
+
+app.post("/api/users/register", (req, res) => {
   // 회원 가입 할때 필요한 정보를 클라이언트에서 가져오면
   // 데이터베이스 넣음
 
@@ -34,7 +38,7 @@ app.post("/users/register", (req, res) => {
     .catch((err) => res.json({ success: false, err }));
 });
 
-app.post("/users/login", (req, res) => {
+app.post("/api/users/login", (req, res) => {
   //findOne을 이용하여 조건에 맞는 데이터를 찾을 수 있음
   //요청된 이메일이 데이터베이스에 있는지 찾음
   //findOne의 리턴값은 쿼리임, 그렇기 때문에 then을 사용해주어야 함
@@ -73,7 +77,7 @@ app.post("/users/login", (req, res) => {
     });
 });
 
-app.get("/users/auth", auth, (req, res) => {
+app.get("/api/users/auth", auth, (req, res) => {
   //여기까지 미들웨어를 통과해 왔다는 얘기는 Authentication이 True였다는 말
   res.status(200).json({
     _id: req.user._id,
@@ -83,7 +87,7 @@ app.get("/users/auth", auth, (req, res) => {
   });
 });
 
-app.get("/users/logout", auth, (req, res) => {
+app.get("/api/users/logout", auth, (req, res) => {
   User.findOneAndUpdate({ _id: req.user._id }, { token: "" }).then((user) => {
     return res
       .status(200)
