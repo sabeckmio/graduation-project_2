@@ -9,7 +9,7 @@ function LandingPage() {
   const onClickHandler = () => {
     axios.get("/api/users/logout").then((response) => {
       if (response.data.success) {
-        navigate("/login");
+        navigate("/");
       } else {
         alert("Error");
       }
@@ -33,4 +33,4 @@ function LandingPage() {
   );
 }
 
-export default Auth(LandingPage, false);
+export default Auth(LandingPage, true);

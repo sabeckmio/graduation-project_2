@@ -13,20 +13,23 @@ export default function (SpecificComponent, option, adminRoute = null) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    // true -> 로그인 한 상태
+    // true -> 로그인 하지 않은 상태
+
     useEffect(() => {
       dispatch(auth()).then((response) => {
         //로그인 하지 않은 상태
         if (!response.payload.isAuth) {
           if (option) {
-            navigate("/login");
+            navigate("/");
           }
         } else {
           //로그인 한 상태
           if (adminRoute && !response.payload.isAdmin) {
-            navigate("/");
+            navigate("/main");
           } else {
             if (option === false) {
-              navigate("/");
+              navigate("/main");
             }
           }
         }

@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { registerUser } from "../../../_actions/user_action";
 import { useNavigate } from "react-router-dom";
 import Auth from "../../../hoc/auth";
+import "./RegisterPage.css";
 
 function RegisterPage() {
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ function RegisterPage() {
 
     dispatch(registerUser(body)).then((response) => {
       if (response.payload.success) {
-        navigate("/login");
+        navigate("/");
       } else {
         alert("Failed to sign up");
       }
@@ -49,36 +50,47 @@ function RegisterPage() {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
-        height: "100vh",
-      }}
-    >
-      <form
-        style={{ display: "flex", flexDirection: "column" }}
-        onSubmit={onSubmitHander}
-      >
-        <label>Email</label>
-        <input type="email" value={Email} onChange={onEmailHandler} />
-
-        <label>Name</label>
-        <input type="text" value={Name} onChange={onNameHandler} />
-
-        <label>Password</label>
-        <input type="password" value={Password} onChange={onPasswordHandler} />
-
-        <label>Cofirm Password</label>
+    <div className="register-div">
+      <div className="login-header">
+        <h1>회원가입</h1>
+      </div>
+      <form className="register-form" onSubmit={onSubmitHander}>
+        <label className="register-label">이메일</label>
         <input
+          placeholder="이메일을 입력해주세요"
+          className="register-input"
+          type="email"
+          value={Email}
+          onChange={onEmailHandler}
+        />
+
+        <label className="register-label">이름</label>
+        <input
+          placeholder="이름을 입력해주세요"
+          className="register-input"
+          type="text"
+          value={Name}
+          onChange={onNameHandler}
+        />
+
+        <label className="register-label">비밀번호</label>
+        <input
+          placeholder="비밀번호를 입력해주세요"
+          className="register-input"
+          type="password"
+          value={Password}
+          onChange={onPasswordHandler}
+        />
+
+        <label className="register-label">비밀번호 확인</label>
+        <input
+          placeholder="비밀번호를 다시 한번 입력해주세요"
+          className="register-input"
           type="password"
           value={ConfirmPassword}
           onChange={onConfirmPasswordHandler}
         />
-        <br />
-        <button>회원 가입</button>
+        <button className="register-button">회원 가입</button>
       </form>
     </div>
   );
