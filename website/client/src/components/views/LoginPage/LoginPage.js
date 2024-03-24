@@ -38,6 +38,10 @@ function LoginPage() {
     event.preventDefault();
     navigate("/register");
   };
+  const onMoveFindPasswordHander = (event) => {
+    event.preventDefault();
+    navigate("/findpassword");
+  };
 
   return (
     <div className="login-div">
@@ -61,10 +65,20 @@ function LoginPage() {
           value={Password}
           onChange={onPasswordHandler}
         />
-        <button className="login-button">로그인</button>
+        <button
+          className="login-button"
+          disabled={Email === "" || Password.length < 8 ? true : false}
+        >
+          로그인
+        </button>
       </form>
       <div className="login-navigate">
-        <button className="login-navigate-button">비밀번호 찾기</button>
+        <button
+          className="login-navigate-button"
+          onClick={onMoveFindPasswordHander}
+        >
+          비밀번호 찾기
+        </button>
         <button
           className="login-navigate-button"
           onClick={onMoveRegisterHander}

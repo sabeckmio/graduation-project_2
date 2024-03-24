@@ -23,10 +23,7 @@ app.get("/", (req, res) => {
   res.send("테스트");
 });
 
-app.get("/api/hello", (req, res) => {
-  res.send("hello");
-});
-
+//회원가입
 app.post("/api/users/register", (req, res) => {
   // 회원 가입 할때 필요한 정보를 클라이언트에서 가져오면
   // 데이터베이스 넣음
@@ -38,6 +35,7 @@ app.post("/api/users/register", (req, res) => {
     .catch((err) => res.json({ success: false, err }));
 });
 
+//로그인
 app.post("/api/users/login", (req, res) => {
   //findOne을 이용하여 조건에 맞는 데이터를 찾을 수 있음
   //요청된 이메일이 데이터베이스에 있는지 찾음
@@ -77,6 +75,7 @@ app.post("/api/users/login", (req, res) => {
     });
 });
 
+//인증
 app.get("/api/users/auth", auth, (req, res) => {
   //여기까지 미들웨어를 통과해 왔다는 얘기는 Authentication이 True였다는 말
   res.status(200).json({

@@ -1,9 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import LandingPage from "./components/views/LandingPage/LandingPage";
 import LoginPage from "./components/views/LoginPage/LoginPage";
 import RegisterPage from "./components/views/RegisterPage/RegisterPage";
+import FindPasswordPage from "./components/views/FindPasswordPage/FindPasswordPage";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route exact path="/" element={LoginPage()} />
         <Route exact path="/main" element={LandingPage()} />
         <Route exact path="/register" element={RegisterPage()} />
+        <Route exact path="/findpassword" element={FindPasswordPage()} />
       </Routes>
     </div>
   );

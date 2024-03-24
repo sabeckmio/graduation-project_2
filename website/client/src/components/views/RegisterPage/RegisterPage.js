@@ -43,8 +43,10 @@ function RegisterPage() {
     dispatch(registerUser(body)).then((response) => {
       if (response.payload.success) {
         navigate("/");
+      } else if (response.payload.err.code === 11000) {
+        alert("이미 등록된 이메일입니다.");
       } else {
-        alert("Failed to sign up");
+        alert("회원가입에 실패했습니다.");
       }
     });
   };
@@ -90,7 +92,19 @@ function RegisterPage() {
           value={ConfirmPassword}
           onChange={onConfirmPasswordHandler}
         />
-        <button className="register-button">회원 가입</button>
+        <button
+          className="register-button"
+          disabled={
+            Email === "" ||
+            Name === "" ||
+            Password.length < 8 ||
+            ConfirmPassword.length < 8
+              ? true
+              : false
+          }
+        >
+          회원 가입
+        </button>
       </form>
     </div>
   );
