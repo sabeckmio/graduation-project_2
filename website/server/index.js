@@ -89,16 +89,15 @@ app.get("/api/users/auth", auth, (req, res) => {
 
 //로그아웃
 app.get("/api/users/logout", auth, (req, res) => {
-  User.findOneAndUpdate({ _id: req.user._id }, { token: "" }).then((user) => {
-    return res
-      .status(200)
-      .send({
+  User.findOneAndUpdate({ _id: req.user._id }, { token: "" })
+    .then((user) => {
+      return res.status(200).send({
         success: true,
-      })
-      .catch((err) => {
-        return res.json({ success: false, err });
       });
-  });
+    })
+    .catch((err) => {
+      return res.json({ success: false, err });
+    });
 });
 
 //이메일 존재하는지 확인
