@@ -50,6 +50,29 @@ userSchema.pre("save", function (next) {
   }
 });
 
+userSchema.pre("findOneAndUpdate", function (next) {
+  var user = this;
+
+  console.log(user._update.password !== undefined);
+  //비밀번호가 수정될 때만 실행
+  if (user._update.password !== undefined) {
+    //비밀번호를 암호화 시킨다
+    bcrypt.genSalt(saltRounds, function (err, salt) {
+      //에러가 발생하면 에러를 넘겨줌
+      if (err) return next(err);
+      //비밀번호 암호화
+      bcrypt.hash(user._update.password, salt, function (err, hash) {
+        if (err) return next(err);
+        user._update.password = hash;
+        console.log(hash);
+        next();
+      });
+    });
+  } else {
+    next();
+  }
+});
+
 userSchema.methods.comparePassword = function (plainPassword, cb) {
   //plainPassword = 12345   암호화된 비밀번호
   bcrypt.compare(plainPassword, this.password, function (err, isMatch) {

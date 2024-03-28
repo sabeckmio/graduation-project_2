@@ -67,7 +67,7 @@ function LoginPage() {
         />
         <button
           className="login-button"
-          disabled={Email === "" || Password.length < 8 ? true : false}
+          disabled={Email === "" || Password.length < 6 ? true : false}
         >
           로그인
         </button>

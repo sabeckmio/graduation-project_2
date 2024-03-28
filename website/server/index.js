@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 const mongoose = require("mongoose");
+const { smtpTransport } = require("./config/email");
 
 mongoose
   .connect(config.mongoURI)
@@ -86,6 +87,7 @@ app.get("/api/users/auth", auth, (req, res) => {
   });
 });
 
+//로그아웃
 app.get("/api/users/logout", auth, (req, res) => {
   User.findOneAndUpdate({ _id: req.user._id }, { token: "" }).then((user) => {
     return res
@@ -97,6 +99,66 @@ app.get("/api/users/logout", auth, (req, res) => {
         return res.json({ success: false, err });
       });
   });
+});
+
+//이메일 존재하는지 확인
+app.get("/api/users/find-email", (req, res) => {
+  User.findOne({ email: req.query.email }).then((user) => {
+    if (!user) {
+      return res.json({
+        findemail: false,
+        message: "제공된 이메일에 해당하는 유저가 없습니다",
+      });
+    } else {
+      return res.json({
+        findemail: true,
+        message: "이메일이 존재합니다.",
+      });
+    }
+  });
+});
+
+// 이메일 수정하기
+app.post("/api/users/send-email", (req, res) => {
+  console.log(req.body);
+  const number = Math.floor(Math.random() * (999999 - 111111 + 1)) + 111111;
+  const { email } = req.body;
+  const mailOptions = {
+    from: "oetoliservice@gmail.com",
+    to: email,
+    subject: "[외토리] 이메일 인증번호",
+    html: `<h1>이메일 주소 확인하기</h1><br>
+    <p>비밀번호를 찾기 위해서 이메일 인증이 필요합니다. <br> 아래 인증코드를 입력하여 이메일 주소가 맞는지 확인해주세요.</p>
+    <h3>${number}</h3>`,
+  };
+  smtpTransport.sendMail(mailOptions, (err, response) => {
+    if (err) {
+      console.log("실패");
+      res.json({ ok: false, msg: err });
+      smtpTransport.close();
+      return;
+    } else {
+      console.log("성공");
+      res.json({ ok: true, msg: "성공", num: number });
+      smtpTransport.close();
+      return;
+    }
+  });
+});
+
+app.post("/api/users/modify-password", (req, res) => {
+  const user = new User(req.body);
+  console.log(req.body.email);
+  console.log(req.body.password);
+  User.findOneAndUpdate(
+    { email: req.body.email },
+    { password: req.body.password }
+  )
+    .then(() => {
+      res.status(200).json({ success: true });
+      console.log("dddd");
+    })
+    .catch((err) => res.json({ success: false, err }));
 });
 
 app.listen(port, () => {
