@@ -5,6 +5,11 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const { OpenAI } = require("openai");
 
+// OpenAI API 키 설정
+const openai = new OpenAI({
+  apiKey: "",
+});
+
 const config = require("./config/key");
 const { auth } = require("./middleware/auth");
 const { User } = require("./models/User");
