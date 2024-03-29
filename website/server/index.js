@@ -13,6 +13,7 @@ const openai = new OpenAI({
 const config = require("./config/key");
 const { auth } = require("./middleware/auth");
 const { User } = require("./models/User");
+const { Message } = require("./models/Message");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
