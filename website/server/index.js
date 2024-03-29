@@ -167,6 +167,68 @@ app.post("/api/users/modify-password", (req, res) => {
     .catch((err) => res.json({ success: false, err }));
 });
 
+//챗지피티 대화하기
+app.post("/api/users/chatgpt", (req, res) => {
+  const prompt = req.body.content;
+
+  // OpenAI API에 요청 보내기 (예시: 대화 생성)
+  openai.chat.completions
+    .create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+      temperature: 1,
+      max_tokens: 256,
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0,
+    })
+    .then((response) => {
+      const answer = response.choices[0].message.content;
+
+      let number = 0; //가장 큰 number 값
+
+      //해당 id의 number중 가장 큰 값 찾기
+      Message.findOne(
+        { userid: req.body.userid },
+        {
+          number: 1,
+        }
+      )
+        .sort({ number: -1 })
+        .then((response) => {
+          console.log(response);
+          number = response !== null ? response.number : 0;
+
+          const message = [
+            {
+              userid: req.body.userid,
+              content: req.body.content,
+              role: 0,
+              number: number + 1,
+            },
+            {
+              userid: req.body.userid,
+              content: answer,
+              number: number + 2,
+            },
+          ];
+
+          //대화 내용 MessageDB에 추가
+          Message.insertMany(message)
+            .then(() => res.status(200).json({ success: true, msg: answer }))
+            .catch((err) => res.json({ success: false, err }));
+        });
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
