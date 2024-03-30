@@ -5,6 +5,7 @@ import LandingPage from "./components/views/LandingPage/LandingPage";
 import LoginPage from "./components/views/LoginPage/LoginPage";
 import RegisterPage from "./components/views/RegisterPage/RegisterPage";
 import FindPasswordPage from "./components/views/FindPasswordPage/FindPasswordPage";
+import HomePage from "./components/views/LandingPage/HomePage";
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
           renders the first one that matches the current URL. */}
       <Routes>
         <Route exact path="/" element={LoginPage()} />
-        <Route exact path="/main" element={LandingPage()} />
+        <Route exact path="/main" element={HomePage()} />
         <Route exact path="/register" element={RegisterPage()} />
         <Route exact path="/findpassword" element={FindPasswordPage()} />
       </Routes>
