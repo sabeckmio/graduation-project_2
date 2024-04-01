@@ -5,7 +5,9 @@ import LandingPage from "./components/views/LandingPage/LandingPage";
 import LoginPage from "./components/views/LoginPage/LoginPage";
 import RegisterPage from "./components/views/RegisterPage/RegisterPage";
 import FindPasswordPage from "./components/views/FindPasswordPage/FindPasswordPage";
-import HomePage from "./components/views/LandingPage/HomePage";
+import HomePage from "./components/views/HomePage/HomePage";
+import Header from "./components/views/Header/Header";
+import Aside from "./components/views/Aside/Aside";
 
 function App() {
   return (
