@@ -1,0 +1,14 @@
+.Aside-div {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  gap: 50%;
+}
+.Aside-div .Aside-ChatList {
+  width: 100%;
+  height: 80vh;
+  background-color: #d9d9d9;
+}
