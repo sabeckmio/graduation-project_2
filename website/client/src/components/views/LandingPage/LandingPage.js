@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Auth from "../../../hoc/auth";
 import "./LandingPage.css";
@@ -14,17 +13,6 @@ function LandingPage() {
 
   const onMessageHandler = (event) => {
     setMessage(event.currentTarget.value);
-  };
-
-  // 로그아웃
-  const onClickHandler = () => {
-    axios.get("/api/users/logout").then((response) => {
-      if (response.data.success) {
-        navigate("/");
-      } else {
-        alert("Error");
-      }
-    });
   };
 
   // 전송
@@ -46,14 +34,10 @@ function LandingPage() {
       onSendHandler(e);
     }
   };
-  useEffect(() => {
-    console.log("ddd");
-  }, []);
-  const messageList = MessageList.map((message) => (
-    <div className="landing-line">
-      <span key={message.number} className="landing-chat-box landing-mine">
-        {message.content}
-      </span>
+
+  const messageList = MessageList.map((message, index) => (
+    <div className="landing-line" key={index}>
+      <span className="landing-chat-box landing-mine">{message.content}</span>
     </div>
   ));
 
@@ -78,7 +62,6 @@ function LandingPage() {
           전송
         </button>
       </div>
-      {/* <button onClick={onClickHandler}>로그아웃</button> */}
     </div>
   );
 }
