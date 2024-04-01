@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.Home-div {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+.Home-div .Home-Header {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.Home-div .Home-main {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  vertical-align: top;
+  width: 100%;
+}
+.Home-div .Home-main .Home-Aside {
+  width: 15%;
+}
+.Home-div .Home-main .Home-LandingPage {
+  width: 85%;
+}
