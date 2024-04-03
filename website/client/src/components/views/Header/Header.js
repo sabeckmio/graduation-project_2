@@ -1,6 +1,6 @@
 import React from "react";
 import "./Header.css";
-import HomeLogo from "./HomeLogo.png";
+import HomeLogo from "../../../images/HomeLogo.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Auth from "../../../hoc/auth";
