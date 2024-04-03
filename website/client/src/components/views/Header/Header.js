@@ -5,7 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Auth from "../../../hoc/auth";
 
-function Header() {
+function Header(props) {
   const navigate = useNavigate();
   // 로그아웃
   const onClickHandler = () => {
@@ -17,6 +17,7 @@ function Header() {
       }
     });
   };
+
   return (
     <div className="Header-div">
       <div className="Header-Menu Header-Menu-left">

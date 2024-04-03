@@ -8,15 +8,17 @@ import Auth from "../../../hoc/auth";
 function HomePage() {
   return (
     <div className="Home-div">
-      <Header className="Home-Header"></Header>
-      <main className="Home-main">
+      <div className="Home-Header">
+        <Header></Header>
+      </div>
+      <div className="Home-main">
         <div className="Home-Aside">
           <Aside></Aside>
         </div>
         <div className="Home-LandingPage">
           <LandingPage></LandingPage>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
