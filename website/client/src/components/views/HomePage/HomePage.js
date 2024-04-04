@@ -18,7 +18,10 @@ function HomePage() {
         <div className="Home-Aside">
           <Aside />
         </div>
-        <div className="Home-LandingPage">
+        <div
+          className="Home-LandingPage"
+          style={{ display: btnType === "home" ? "" : "none" }}
+        >
           <LandingPage />
         </div>
       </div>
