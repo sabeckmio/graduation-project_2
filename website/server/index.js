@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 const mongoose = require("mongoose");
-const { smtpTransport } = require("./config/email");
+const { smtpTransport } = require("./config/e");
 
 mongoose
   .connect(config.mongoURI)

@@ -73,8 +73,8 @@ function FindPasswordPage() {
     if (Number(UserNum) === Number(Num)) {
       setCheckNum(true);
     } else {
-      console.log("사용자가 입력한 " + UserNum);
-      console.log("원래 번호는 " + Num);
+      // console.log("사용자가 입력한 " + UserNum);
+      // console.log("원래 번호는 " + Num);
       alert("인증번호가 동일하지 않습니다.");
     }
   };
