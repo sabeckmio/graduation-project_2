@@ -220,4 +220,4 @@ function FindPasswordPage() {
   );
 }
 
-export default Auth(FindPasswordPage, null);
+export default Auth(FindPasswordPage, false);

@@ -6,6 +6,7 @@
   width: 100%;
   height: 100vh;
   gap: 50%;
+  background-color: #a66641;
 }
 .Header-div .Header-Menu {
   display: flex;
@@ -28,10 +29,21 @@
   outline: 0;
   background-color: transparent;
   cursor: pointer;
+  color: white;
+}
+.Header-div .Header-Menu .Header-button-en {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+.Header-div .Header-Menu .Header-button .Header-button-en-img {
+  width: 30%;
 }
 .Header-div .Header-Menu .Header-button-logout {
-  background-color: #3563e9;
-  color: white;
+  background-color: white;
+  color: #a66641;
   border-radius: 10px;
 }
 

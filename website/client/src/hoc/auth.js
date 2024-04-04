@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { auth } from "../_actions/user_action";
 import { useNavigate } from "react-router-dom";
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default function (SpecificComponent, option, adminRoute = null) {
   //null => 아무나 출입이 가능한 페이지
   //true => 로그인한 유저만 출입이 가능한 페이지
@@ -12,9 +13,6 @@ export default function (SpecificComponent, option, adminRoute = null) {
   function AuthenticationCheck(props) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-    // true -> 로그인 한 상태
-    // true -> 로그인 하지 않은 상태
 
     useEffect(() => {
       dispatch(auth()).then((response) => {

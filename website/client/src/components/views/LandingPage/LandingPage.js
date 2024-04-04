@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Auth from "../../../hoc/auth";
 import "./LandingPage.css";
+import send from "../../../images/send.png";
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -59,7 +60,7 @@ function LandingPage() {
           onKeyDown={onSendPressHandler}
         />
         <button className="landing-send" onClick={onSendHandler}>
-          전송
+          <img className="landing-send-img" src={send} alt="send"></img>
         </button>
       </div>
     </div>

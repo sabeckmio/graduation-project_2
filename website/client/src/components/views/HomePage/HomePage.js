@@ -1,22 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import LandingPage from "../LandingPage/LandingPage";
 import Header from "../Header/Header";
 import Aside from "../Aside/Aside";
 import "./HomePage.css";
 import Auth from "../../../hoc/auth";
+import { useSelector } from "react-redux";
 
 function HomePage() {
+  const btnType = useSelector((state) => state.button.btnType);
+
   return (
     <div className="Home-div">
       <div className="Home-Header">
-        <Header></Header>
+        <Header />
       </div>
       <div className="Home-main">
         <div className="Home-Aside">
-          <Aside></Aside>
+          <Aside />
         </div>
         <div className="Home-LandingPage">
-          <LandingPage></LandingPage>
+          <LandingPage />
         </div>
       </div>
     </div>
