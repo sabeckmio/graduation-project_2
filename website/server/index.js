@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 const mongoose = require("mongoose");
-const { smtpTransport } = require("./config/e");
+const { smtpTransport } = require("./config/email");
 
 mongoose
   .connect(config.mongoURI)
@@ -153,6 +153,7 @@ app.post("/api/users/send-email", (req, res) => {
   });
 });
 
+// 비밀번호 수정하기
 app.post("/api/users/modify-password", (req, res) => {
   const user = new User(req.body);
   console.log(req.body.email);
