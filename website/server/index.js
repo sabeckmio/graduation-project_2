@@ -125,7 +125,7 @@ app.get("/api/users/find-email", (req, res) => {
   });
 });
 
-// 이메일 수정하기
+// 이메일 보내기
 app.post("/api/users/send-email", (req, res) => {
   console.log(req.body);
   const number = Math.floor(Math.random() * (999999 - 111111 + 1)) + 111111;
