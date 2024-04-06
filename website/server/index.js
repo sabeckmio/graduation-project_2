@@ -192,11 +192,12 @@ app.post("/api/users/chatgpt", (req, res) => {
     .then((response) => {
       const answer = response.choices[0].message.content;
 
+      let part = req.body.part === null ? 0 : req.body.part;
       let number = 0; //가장 큰 number 값
 
       //해당 id의 number중 가장 큰 값 찾기
       Message.findOne(
-        { userid: req.body.userid },
+        { userid: req.body.userid, part: part },
         {
           number: 1,
         }
@@ -212,11 +213,13 @@ app.post("/api/users/chatgpt", (req, res) => {
               content: req.body.content,
               role: 0,
               number: number + 1,
+              part: part,
             },
             {
               userid: req.body.userid,
               content: answer,
               number: number + 2,
+              part: part,
             },
           ];
 
@@ -228,6 +231,22 @@ app.post("/api/users/chatgpt", (req, res) => {
     })
     .catch((err) => {
       console.error(err);
+    });
+});
+
+//대화가 몇개 있는지 찾음
+app.get("/api/users/part", (req, res) => {
+  console.log(req.query.userid);
+  Message.find({ userid: req.query.userid })
+    .distinct("part")
+    .then((response) => {
+      return res.status(200).json({
+        part: response,
+        length: response.length,
+      });
+    })
+    .catch((err) => {
+      return res.json({ err: err });
     });
 });
 

@@ -13,7 +13,7 @@ export default function (state = {}, action) {
     case REGISTER_USER:
       return { ...state, register: action.payload };
     case AUTH_USER:
-      return { ...state, userData: action.payload };
+      return { ...state, userData: action.payload, userid: action.payload._id };
     case FIND_EMAIL:
       return { ...state, userData: action.payload };
     default:

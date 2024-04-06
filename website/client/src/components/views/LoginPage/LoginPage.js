@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../../_actions/user_action";
 import Auth from "../../../hoc/auth";
 import "./LoginPage.css";
+import { getUserid } from "../../../_actions/chatbot_action";
 
 function LoginPage() {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ function LoginPage() {
 
     dispatch(loginUser(body)).then((response) => {
       if (response.payload.loginSuccess) {
+        dispatch(getUserid(response.payload.userId));
         navigate("/main");
       } else {
         alert("일치하는 회원정보가 없습니다");

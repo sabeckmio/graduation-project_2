@@ -11,6 +11,9 @@ const messageSchema = mongoose.Schema({
   number: {
     type: Number,
   },
+  part: {
+    type: Number,
+  },
   role: {
     type: Number,
     default: 1,

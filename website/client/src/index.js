@@ -3,6 +3,8 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { Provider } from "react-redux";
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
 import reportWebVitals from "./reportWebVitals";
 import { applyMiddleware, createStore } from "redux";
 import promiseMiddleware from "redux-promise";
@@ -10,23 +12,27 @@ import { thunk } from "redux-thunk";
 import Reducer from "./_reducers";
 import { BrowserRouter } from "react-router-dom";
 
-const createStoreWitMiddleware = applyMiddleware(
+const createStoreWithMiddleware = applyMiddleware(
   promiseMiddleware,
   thunk
 )(createStore);
 
+const store = createStoreWithMiddleware(
+  Reducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+
+const persistor = persistStore(store);
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Provider
-        store={createStoreWitMiddleware(
-          Reducer,
-          window.__REDUX_DEVTOOLS_EXTENSION__ &&
-            window.__REDUX_DEVTOOLS_EXTENSION__()
-        )}
-      >
-        <App />
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <App />
+        </PersistGate>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>
