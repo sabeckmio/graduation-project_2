@@ -1,18 +1,5 @@
 import axios from "axios";
-import {
-  GET_PART,
-  GET_ALL_MESSAGE,
-  GET_CHATGPT_MESSAGE,
-  GET_USERID,
-} from "./types";
-
-//아이디 가져오기
-export function getUserid(userid) {
-  return {
-    type: GET_PART,
-    userid: userid,
-  };
-}
+import { GET_PART, GET_ALL_MESSAGE, GET_CHATGPT_MESSAGE } from "./types";
 
 //대화방 갯수 가져오기
 export function getPart(userid) {
@@ -26,9 +13,15 @@ export function getPart(userid) {
   };
 }
 
+export function getPart_modify(body) {
+  return {
+    type: GET_PART,
+    payload: body,
+  };
+}
+
 //챗지피티 대화 가져오기
 export function getChatGptMsg(data) {
-  // console.log(data);
   const request = axios
     .post("/api/users/chatgpt", data)
     .then((response) => response.data);

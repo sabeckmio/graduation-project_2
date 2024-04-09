@@ -1,4 +1,4 @@
-import { BUTTON_TYPE } from "../_actions/types";
+import { BUTTON_TYPE, LOAD_TALK } from "../_actions/types";
 
 export default function buttonType(state = { btnType: "home" }, action) {
   // eslint-disable-next-line default-case
@@ -8,6 +8,12 @@ export default function buttonType(state = { btnType: "home" }, action) {
         ...state,
         btnType: action.btnType,
       };
+    case LOAD_TALK: {
+      return {
+        ...state,
+        index: action.index,
+      };
+    }
     default:
       return state;
   }

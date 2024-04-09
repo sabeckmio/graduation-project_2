@@ -32,7 +32,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
           }
         }
       });
-    }, []);
+    }, [dispatch, navigate]);
     return <SpecificComponent />;
   }
   return AuthenticationCheck;

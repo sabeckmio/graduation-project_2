@@ -31,3 +31,22 @@
   width: 85%;
   height: 100%;
 }
+
+/* 반응형 */
+@media screen and (max-width: 1200px) {
+  .Home-div .Home-main .Home-Aside {
+    width: 20%;
+  }
+  .Home-div .Home-main .Home-LandingPage {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .Home-div .Home-main .Home-Aside {
+    width: 25%;
+  }
+  .Home-div .Home-main .Home-LandingPage {
+    width: 75%;
+  }
+}

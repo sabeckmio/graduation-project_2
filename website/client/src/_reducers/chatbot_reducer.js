@@ -1,13 +1,11 @@
-import { GET_CHATGPT_MESSAGE, GET_PART, GET_USERID } from "../_actions/types";
+import { GET_CHATGPT_MESSAGE, GET_PART } from "../_actions/types";
 
-export default function chatbot(state = {}, action) {
+export default function chatbot(
+  state = { part: { part: [], length: 0 } },
+  action
+) {
   // eslint-disable-next-line default-case
   switch (action.type) {
-    case GET_USERID:
-      return {
-        ...state,
-        userid: action.userid,
-      };
     case GET_PART:
       return {
         ...state,

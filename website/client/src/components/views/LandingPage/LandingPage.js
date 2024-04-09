@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Auth from "../../../hoc/auth";
 import "./LandingPage.css";
 import send from "../../../images/send.png";
+import { useDispatch, useSelector } from "react-redux";
+import { getChatGptMsg, getPart } from "../../../_actions/chatbot_action";
 
 function LandingPage() {
-  const navigate = useNavigate();
-  const [MessageList, setMessageList] = useState([
-    { number: 1, content: "그래요" },
-  ]);
+  const dispatch = useDispatch();
+
+  const userid = useSelector((state) => state.user.userid);
+  const part_length = useSelector((state) => state.chatbot.part);
+
+  const [MessageList, setMessageList] = useState([]);
   const [Message, setMessage] = useState("");
-  let Number = 1;
 
   const onMessageHandler = (event) => {
     setMessage(event.currentTarget.value);
@@ -20,15 +23,26 @@ function LandingPage() {
   const onSendHandler = (event) => {
     //페이지 리프레시를 막기 위해
     event.preventDefault();
+    const length = part_length.length;
+    setMessageList((list) => [...list, { content: Message, role: 1 }]);
 
-    setMessageList((list) => [
-      ...list,
-      { number: Number + 1, content: Message },
-    ]);
+    let body = {
+      userid: userid,
+      content: Message,
+      part: length,
+    };
 
-    Number += 1;
+    // gpt에서 대답을 받아옴
+    dispatch(getChatGptMsg(body)).then((response) => {
+      setMessageList((list) => [
+        ...list,
+        { content: response.payload.msg, role: 0 },
+      ]);
+    });
+
     setMessage("");
   };
+  //엔터 누르면 전송
   const onSendPressHandler = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -36,22 +50,28 @@ function LandingPage() {
     }
   };
 
-  const messageList = MessageList.map((message, index) => (
-    <div className="landing-line" key={index}>
-      <span className="landing-chat-box landing-mine">{message.content}</span>
-    </div>
-  ));
+  // eslint-disable-next-line array-callback-return
+  const msgList = MessageList.map((message, index) => {
+    if (message.role === 1) {
+      return (
+        <div className="landing-line" key={index}>
+          <span className="landing-chat-box landing-mine">
+            {message.content}
+          </span>
+        </div>
+      );
+    } else {
+      return (
+        <div className="landing-line" key={index}>
+          <span className="landing-chat-box">{message.content}</span>
+        </div>
+      );
+    }
+  });
 
   return (
     <div className="landing-div">
-      <div className="landing-chat-content">
-        {/* 챗봇 메시지 */}
-        <div className="landing-line">
-          <span className="landing-chat-box">안녕?</span>
-        </div>
-        {/* 사용자 메시지 */}
-        {messageList}
-      </div>
+      <div className="landing-chat-content">{msgList}</div>
       <div className="landing-input">
         <input
           className="landing-chat-box landing-chat-box-input"
