@@ -7,3 +7,4 @@ export const GET_PART = "get_part";
 export const GET_ALL_MESSAGE = "get_all_message";
 export const GET_CHATGPT_MESSAGE = "get_chatgpt_message";
 export const LOAD_TALK = "load_talk";
+export const DELETE_ALL_MESSAGE = "delete_all_message";

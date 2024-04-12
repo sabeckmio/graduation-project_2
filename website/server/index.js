@@ -127,7 +127,6 @@ app.get("/api/users/find-email", (req, res) => {
 
 // 이메일 보내기
 app.post("/api/users/send-email", (req, res) => {
-  console.log(req.body);
   const number = Math.floor(Math.random() * (999999 - 111111 + 1)) + 111111;
   const { email } = req.body;
   const mailOptions = {
@@ -140,12 +139,10 @@ app.post("/api/users/send-email", (req, res) => {
   };
   smtpTransport.sendMail(mailOptions, (err, response) => {
     if (err) {
-      console.log("실패");
       res.json({ ok: false, msg: err });
       smtpTransport.close();
       return;
     } else {
-      console.log("성공");
       res.json({ ok: true, msg: "성공", num: number });
       smtpTransport.close();
       return;
@@ -156,21 +153,18 @@ app.post("/api/users/send-email", (req, res) => {
 // 비밀번호 수정하기
 app.post("/api/users/modify-password", (req, res) => {
   const user = new User(req.body);
-  console.log(req.body.email);
-  console.log(req.body.password);
   User.findOneAndUpdate(
     { email: req.body.email },
     { password: req.body.password }
   )
     .then(() => {
       res.status(200).json({ success: true });
-      console.log("dddd");
     })
     .catch((err) => res.json({ success: false, err }));
 });
 
 //챗지피티 대화하기
-app.post("/api/users/chatgpt", (req, res) => {
+app.post("/api/chat/chatgpt", (req, res) => {
   const prompt = req.body.content;
 
   // OpenAI API에 요청 보내기 (예시: 대화 생성)
@@ -235,8 +229,7 @@ app.post("/api/users/chatgpt", (req, res) => {
 });
 
 //대화가 몇개 있는지 찾음
-app.get("/api/users/part", (req, res) => {
-  console.log(req.query.userid);
+app.get("/api/chat/part", (req, res) => {
   Message.find({ userid: req.query.userid })
     .distinct("part")
     .then((response) => {
@@ -250,6 +243,38 @@ app.get("/api/users/part", (req, res) => {
     });
 });
 
+// 해당 대화 전체 불러오기
+app.get("/api/chat/getTalk", (req, res) => {
+  let body = req.query;
+
+  console.log(body);
+  Message.find(
+    { userid: body.userid, part: body.part },
+    { content: 1, role: 1 }
+  )
+    .then((response) => {
+      return res.status(200).json({
+        list: response,
+      });
+    })
+    .catch((err) => {
+      return res.json({ err: err });
+    });
+});
+
+// 해당 대화 전체 삭제
+app.delete("/api/chat/deleteTalk", (req, res) => {
+  let body = req.query;
+  Message.deleteMany({ userid: body.userid, part: body.part })
+    .then((response) => {
+      return res.status(200).json({
+        success: true,
+      });
+    })
+    .catch((err) => {
+      return res.json({ err: err });
+    });
+});
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });

@@ -7,6 +7,7 @@ export function buttonType(btnType) {
   };
 }
 
+// 현재 선택한 메세지 / 이전 메세지 선택할 때
 export function loadTalk(index) {
   return {
     type: LOAD_TALK,

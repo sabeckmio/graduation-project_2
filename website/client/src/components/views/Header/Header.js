@@ -4,7 +4,7 @@ import HomeLogo from "../../../images/HomeLogo.png";
 import en from "../../../images/en.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { buttonType } from "../../../_actions/button_action";
+import { buttonType, loadTalk } from "../../../_actions/button_action";
 import Auth from "../../../hoc/auth";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -17,6 +17,8 @@ function Header() {
     axios.get("/api/users/logout").then((response) => {
       if (response.data.success) {
         navigate("/");
+        dispatch(loadTalk(-1));
+        dispatch(buttonType("home"));
       } else {
         alert("Error");
       }

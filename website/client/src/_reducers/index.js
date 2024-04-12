@@ -9,11 +9,15 @@ import chatbot from "./chatbot_reducer";
 const persistConfig = {
   key: "root",
   storage: storageSession,
+  whitelist: ["user"],
 };
+
 const rootReducer = combineReducers({
   user,
   button,
   chatbot,
 });
 
-export default persistReducer(persistConfig, rootReducer);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export default persistedReducer;
