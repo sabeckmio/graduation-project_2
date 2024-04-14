@@ -19,7 +19,7 @@ function HomePage() {
       <div className="Home-main">
         <div
           className="Home-LandingPage"
-          style={{ display: btnType === "home" ? "" : "none" }}
+          style={{ display: btnType === "홈" ? "" : "none" }}
         >
           <LandingPage />
         </div>
@@ -31,13 +31,13 @@ function HomePage() {
         </div>
         <div
           className="Home-LandingPage"
-          style={{ display: btnType === "정보" ? "" : "none" }}
+          style={{ display: btnType === "상담" ? "" : "none" }}
         >
           <InformationPage />
         </div>
         <div
           className="Home-LandingPage"
-          style={{ display: btnType === "about" ? "" : "none" }}
+          style={{ display: btnType === "더 알아보기" ? "" : "none" }}
         >
           <AboutUsPage />
         </div>

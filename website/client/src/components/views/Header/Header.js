@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./Header.css";
-import HomeLogo from "../../../images/HomeLogo.png";
-import en from "../../../images/en.png";
+import MainLogo from "../../../images/MainLogo.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { buttonType } from "../../../_actions/button_action";
@@ -11,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const btnType = useSelector((state) => state.button.btnType);
 
   // 로그아웃
   const onClickHandler = () => {
@@ -25,46 +25,66 @@ function Header() {
   };
 
   const onButtonHomeHandler = () => {
-    dispatch(buttonType("home"));
+    dispatch(buttonType("홈"));
   };
   const onButtonDoitHandler = () => {
     dispatch(buttonType("할일"));
   };
   const onButtonInformationHandler = () => {
-    dispatch(buttonType("정보"));
+    dispatch(buttonType("상담"));
+  };
+  const onButtonToliHandler = () => {
+    dispatch(buttonType("토리꾸미기"));
   };
   const onButtonAboutHandler = () => {
-    dispatch(buttonType("about"));
+    dispatch(buttonType("더 알아보기"));
   };
 
   return (
     <div className="Header-div">
       <div className="Header-Menu Header-Menu-left">
         <div>
-          <img className="Header-img" alt="HomeLogo" src={HomeLogo}></img>
+          <img className="Header-img" alt="HomeLogo" src={MainLogo}></img>
         </div>
         <div className="Header-Menu-button">
-          <button className="Header-button" onClick={onButtonHomeHandler}>
-            Home
+          <button
+            className="Header-button Header-Menu-button-margin"
+            onClick={onButtonHomeHandler}
+            style={{ color: btnType === "홈" ? "#73020C" : "white" }}
+          >
+            홈
           </button>
-          <button className="Header-button" onClick={onButtonDoitHandler}>
+          <button
+            className="Header-button Header-Menu-button-margin"
+            onClick={onButtonDoitHandler}
+            style={{ color: btnType === "할일" ? "#73020C" : "white" }}
+          >
             할일
           </button>
           <button
-            className="Header-button"
+            className="Header-button Header-Menu-button-margin"
             onClick={onButtonInformationHandler}
+            style={{ color: btnType === "상담" ? "#73020C" : "white" }}
           >
-            정보
+            상담
           </button>
-          <button className="Header-button" onClick={onButtonAboutHandler}>
-            About Us
+          <button
+            className="Header-button Header-Menu-button-margin"
+            onClick={onButtonToliHandler}
+            style={{ color: btnType === "토리꾸미기" ? "#73020C" : "white" }}
+          >
+            토리꾸미기
+          </button>
+          <button
+            className="Header-button Header-Menu-button-margin"
+            onClick={onButtonAboutHandler}
+            style={{ color: btnType === "더 알아보기" ? "#73020C" : "white" }}
+          >
+            더 알아보기
           </button>
         </div>
       </div>
       <div className="Header-Menu Header-Menu-button">
-        <button className="Header-button Header-button-en">
-          <img className="Header-button-en-img" src={en} alt="en"></img>En
-        </button>
         <button
           className="Header-button Header-button-logout"
           onClick={onClickHandler}

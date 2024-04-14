@@ -22,25 +22,19 @@
 }
 
 .Header-div .Header-Menu .Header-button {
-  width: 80px;
   height: 30px;
   vertical-align: top;
   border: 0;
   outline: 0;
   background-color: transparent;
+  font-size: 20px;
   cursor: pointer;
   color: white;
 }
-.Header-div .Header-Menu .Header-button-en {
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  align-items: center;
-  gap: 5px;
+.Header-div .Header-Menu .Header-Menu-button .Header-Menu-button-margin {
+  margin-right: 20px;
 }
-.Header-div .Header-Menu .Header-button .Header-button-en-img {
-  width: 30%;
-}
+
 .Header-div .Header-Menu .Header-button-logout {
   background-color: white;
   color: #a66641;
