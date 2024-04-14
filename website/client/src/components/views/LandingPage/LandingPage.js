@@ -4,20 +4,12 @@ import Auth from "../../../hoc/auth";
 import "./LandingPage.css";
 import send from "../../../images/send.png";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getChatGptMsg,
-  getPart,
-  getPart_modify,
-  getTalk,
-} from "../../../_actions/chatbot_action";
-import { loadTalk } from "../../../_actions/button_action";
+import { getChatGptMsg } from "../../../_actions/chatbot_action";
 
 function LandingPage() {
   const dispatch = useDispatch();
 
   const userid = useSelector((state) => state.user.loginSuccess.userId);
-  const part = useSelector((state) => state.chatbot.part);
-  const index = useSelector((state) => state.button.index);
 
   const [MessageList, setMessageList] = useState([]);
   const [Message, setMessage] = useState("");
@@ -31,26 +23,12 @@ function LandingPage() {
     //페이지 리프레시를 막기 위해
     event.preventDefault();
 
-    const length = index !== -1 ? index : part.part[part.length - 1] + 1;
-
     let newMessage = { content: Message, role: 0 };
-
-    if (index === -1) {
-      dispatch(
-        getPart_modify({
-          part: [...part.part, length],
-          length: part.length + 1,
-        })
-      );
-      dispatch(loadTalk(length));
-    } else {
-      setMessageList((list) => [...list, newMessage]);
-    }
+    setMessageList((list) => [...list, newMessage]);
 
     let body = {
       userid: userid,
       content: Message,
-      part: length,
     };
 
     if (userid !== undefined) {
@@ -58,7 +36,6 @@ function LandingPage() {
 
       dispatch(getChatGptMsg(body)).then((response) => {
         let responseMessage = { content: response.payload.msg, role: 1 };
-        if (index === -1) setMessageList((list) => [...list, newMessage]);
         setMessageList((list) => [...list, responseMessage]);
       });
     } else {
@@ -96,36 +73,6 @@ function LandingPage() {
       );
     }
   });
-
-  useEffect(() => {
-    // 삭제된 대화일 경우 채팅 기록 초기화
-    if (part.length === 0 || !part.part.includes(index)) {
-      setMessageList([]);
-      return;
-    }
-    // 유저가 존재하고, 지난대화가 존재하며, 지난대화를 클릭했을 때
-    if (userid !== undefined && part.length !== 0 && index !== -1) {
-      let body = {
-        userid: userid,
-        part: index,
-      };
-      // 해당 대화를 불러옴
-      dispatch(getTalk(body)).then((response) => {
-        const arr = response.payload;
-        setMessageList([]);
-
-        // 불러온 대화를 배열에 넣음
-        arr.map((value, index) => {
-          return setMessageList((list) => [
-            ...list,
-            { content: value.content, role: value.role },
-          ]);
-        });
-      });
-    } else if (userid !== undefined && part.length !== 0 && index === -1) {
-      setMessageList([]);
-    }
-  }, [index, dispatch, userid, part]);
 
   return (
     <div className="landing-div">

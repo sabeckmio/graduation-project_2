@@ -191,7 +191,7 @@ app.post("/api/chat/chatgpt", (req, res) => {
 
       //해당 id의 number중 가장 큰 값 찾기
       Message.findOne(
-        { userid: req.body.userid, part: part },
+        { userid: req.body.userid },
         {
           number: 1,
         }
@@ -207,13 +207,11 @@ app.post("/api/chat/chatgpt", (req, res) => {
               content: req.body.content,
               role: 0,
               number: number + 1,
-              part: part,
             },
             {
               userid: req.body.userid,
               content: answer,
               number: number + 2,
-              part: part,
             },
           ];
 

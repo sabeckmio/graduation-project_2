@@ -11,11 +11,6 @@ export default function chatbot(
 ) {
   // eslint-disable-next-line default-case
   switch (action.type) {
-    case GET_PART:
-      return {
-        ...state,
-        part: action.payload,
-      };
     case GET_CHATGPT_MESSAGE:
       return {
         ...state,
