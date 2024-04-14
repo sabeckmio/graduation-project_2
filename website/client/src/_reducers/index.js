@@ -9,7 +9,7 @@ import chatbot from "./chatbot_reducer";
 const persistConfig = {
   key: "root",
   storage: storageSession,
-  whitelist: ["user"],
+  whitelist: ["user", "chatbot"],
 };
 
 const rootReducer = combineReducers({

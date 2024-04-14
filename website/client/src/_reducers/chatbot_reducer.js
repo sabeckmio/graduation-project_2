@@ -2,13 +2,9 @@ import {
   DELETE_ALL_MESSAGE,
   GET_ALL_MESSAGE,
   GET_CHATGPT_MESSAGE,
-  GET_PART,
 } from "../_actions/types";
 
-export default function chatbot(
-  state = { part: { part: [], length: 0 }, answer: [] },
-  action
-) {
+export default function chatbot(state = { answer: [] }, action) {
   // eslint-disable-next-line default-case
   switch (action.type) {
     case GET_CHATGPT_MESSAGE:

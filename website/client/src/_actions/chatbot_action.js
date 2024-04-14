@@ -17,8 +17,8 @@ export function getChatGptMsg(data) {
 }
 
 // 해당되는 지난 대화 모두 가져오기
-export function getTalk(body) {
-  const params = body;
+export function getTalk(userid) {
+  const params = { userid: userid };
   const request = axios
     .get("/api/chat/getTalk", { params })
     .then((response) => response.data.list);

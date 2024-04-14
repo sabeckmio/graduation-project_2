@@ -226,30 +226,11 @@ app.post("/api/chat/chatgpt", (req, res) => {
     });
 });
 
-//대화가 몇개 있는지 찾음
-app.get("/api/chat/part", (req, res) => {
-  Message.find({ userid: req.query.userid })
-    .distinct("part")
-    .then((response) => {
-      return res.status(200).json({
-        part: response,
-        length: response.length,
-      });
-    })
-    .catch((err) => {
-      return res.json({ err: err });
-    });
-});
-
 // 해당 대화 전체 불러오기
 app.get("/api/chat/getTalk", (req, res) => {
   let body = req.query;
 
-  console.log(body);
-  Message.find(
-    { userid: body.userid, part: body.part },
-    { content: 1, role: 1 }
-  )
+  Message.find({ userid: body.userid })
     .then((response) => {
       return res.status(200).json({
         list: response,
@@ -262,8 +243,8 @@ app.get("/api/chat/getTalk", (req, res) => {
 
 // 해당 대화 전체 삭제
 app.delete("/api/chat/deleteTalk", (req, res) => {
-  let body = req.query;
-  Message.deleteMany({ userid: body.userid, part: body.part })
+  let body = req.body;
+  Message.deleteMany({ userid: body.userid })
     .then((response) => {
       return res.status(200).json({
         success: true,

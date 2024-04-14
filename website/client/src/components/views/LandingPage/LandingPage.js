@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Auth from "../../../hoc/auth";
 import "./LandingPage.css";
 import send from "../../../images/send.png";
 import { useDispatch, useSelector } from "react-redux";
-import { getChatGptMsg } from "../../../_actions/chatbot_action";
+import { getChatGptMsg, getTalk } from "../../../_actions/chatbot_action";
 
 function LandingPage() {
   const dispatch = useDispatch();
-
-  const userid = useSelector((state) => state.user.loginSuccess.userId);
-
+  const userid = useSelector((state) => state.user);
+  const chatbot = useSelector((state) => state.chatbot.answer);
   const [MessageList, setMessageList] = useState([]);
   const [Message, setMessage] = useState("");
 
@@ -27,11 +25,11 @@ function LandingPage() {
     setMessageList((list) => [...list, newMessage]);
 
     let body = {
-      userid: userid,
+      userid: userid.loginSuccess.userId,
       content: Message,
     };
 
-    if (userid !== undefined) {
+    if (userid.loginSuccess.userId !== undefined) {
       // gpt에서 대답을 받아옴
 
       dispatch(getChatGptMsg(body)).then((response) => {
@@ -44,6 +42,7 @@ function LandingPage() {
 
     setMessage("");
   };
+
   //엔터 누르면 전송
   const onSendPressHandler = (e) => {
     if (e.key === "Enter") {
@@ -51,6 +50,17 @@ function LandingPage() {
       onSendHandler(e);
     }
   };
+
+  useEffect(() => {
+    setMessageList([]);
+    // LandingPage가 마운트될 때 이전 대화를 불러오기
+    if (chatbot !== undefined) {
+      const newMessages = chatbot.map((value, index) => {
+        return { content: value.content, role: value.role };
+      });
+      setMessageList(newMessages);
+    }
+  }, [chatbot]);
 
   // eslint-disable-next-line array-callback-return
   const msgList = MessageList.map((message, index) => {
