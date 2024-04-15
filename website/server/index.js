@@ -4,6 +4,7 @@ const port = 5000;
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const { OpenAI } = require("openai");
+const moment = require("moment-timezone");
 
 const chatgpt_key = require("./config/chatgpt_key");
 // OpenAI API 키 설정
@@ -163,10 +164,30 @@ app.post("/api/users/modify-password", (req, res) => {
     .catch((err) => res.json({ success: false, err }));
 });
 
-//챗지피티 대화하기
-app.post("/api/chat/chatgpt", (req, res) => {
-  const prompt = req.body.content;
+// 사용자 대화 넣고 불러오기
+app.post("/api/chat/postTalk/user", (req, res) => {
+  const message = new Message({
+    userid: req.body.userid,
+    content: req.body.content,
+    number: req.body.number,
+    role: 0,
+    date: moment.tz("Asia/Seoul").format("YYYY-MM-DD HH:mm:ss"),
+  });
 
+  message
+    .save()
+    .then((response) => {
+      return res.status(200).json({
+        success: true,
+        message: response,
+      });
+    })
+    .catch((err) => res.json({ success: false, err }));
+});
+
+// 챗봇 대화 넣고 불러오기
+app.post("/api/chat/postTalk/chatbot", (req, res) => {
+  const prompt = req.body.content;
   // OpenAI API에 요청 보내기 (예시: 대화 생성)
   openai.chat.completions
     .create({
@@ -185,44 +206,25 @@ app.post("/api/chat/chatgpt", (req, res) => {
     })
     .then((response) => {
       const answer = response.choices[0].message.content;
+      const message = new Message({
+        userid: req.body.userid,
+        content: answer,
+        role: 1,
+        date: moment.tz("Asia/Seoul").format("YYYY-MM-DD HH:mm:ss"),
+      });
 
-      let part = req.body.part === null ? 0 : req.body.part;
-      let number = 0; //가장 큰 number 값
-
-      //해당 id의 number중 가장 큰 값 찾기
-      Message.findOne(
-        { userid: req.body.userid },
-        {
-          number: 1,
-        }
-      )
-        .sort({ number: -1 })
+      message
+        .save()
         .then((response) => {
-          console.log(response);
-          number = response !== null ? response.number : 0;
-
-          const message = [
-            {
-              userid: req.body.userid,
-              content: req.body.content,
-              role: 0,
-              number: number + 1,
-            },
-            {
-              userid: req.body.userid,
-              content: answer,
-              number: number + 2,
-            },
-          ];
-
-          //대화 내용 MessageDB에 추가
-          Message.insertMany(message)
-            .then(() => res.status(200).json({ success: true, msg: answer }))
-            .catch((err) => res.json({ success: false, err }));
-        });
+          return res.status(200).json({
+            success: true,
+            message: response,
+          });
+        })
+        .catch((err) => res.json({ success: false, err }));
     })
     .catch((err) => {
-      console.error(err);
+      res.json({ success: false, err });
     });
 });
 

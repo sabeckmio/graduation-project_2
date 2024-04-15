@@ -17,7 +17,7 @@ function Header() {
     axios.get("/api/users/logout").then((response) => {
       if (response.data.success) {
         navigate("/");
-        dispatch(buttonType("home"));
+        dispatch(buttonType("홈"));
       } else {
         alert("Error");
       }

@@ -3,7 +3,11 @@ import Auth from "../../../hoc/auth";
 import "./LandingPage.css";
 import send from "../../../images/send.png";
 import { useDispatch, useSelector } from "react-redux";
-import { getChatGptMsg, getTalk } from "../../../_actions/chatbot_action";
+import {
+  getChatGptMsg,
+  postTalkChatbot,
+  postTalkUser,
+} from "../../../_actions/chatbot_action";
 
 function LandingPage() {
   const dispatch = useDispatch();
@@ -21,20 +25,20 @@ function LandingPage() {
     //페이지 리프레시를 막기 위해
     event.preventDefault();
 
-    let newMessage = { content: Message, role: 0 };
-    setMessageList((list) => [...list, newMessage]);
-
     let body = {
       userid: userid.loginSuccess.userId,
       content: Message,
     };
 
-    if (userid.loginSuccess.userId !== undefined) {
-      // gpt에서 대답을 받아옴
+    dispatch(postTalkUser(body)).then((response) => {
+      const userMessage = response.payload.message;
+      setMessageList((list) => [...list, userMessage]);
+    });
 
-      dispatch(getChatGptMsg(body)).then((response) => {
-        let responseMessage = { content: response.payload.msg, role: 1 };
-        setMessageList((list) => [...list, responseMessage]);
+    if (userid.loginSuccess.userId !== undefined) {
+      dispatch(postTalkChatbot(body)).then((response) => {
+        const userMessage = response.payload.message;
+        setMessageList((list) => [...list, userMessage]);
       });
     } else {
       alert("메시지를 받아오는데 문제가 있습니다");

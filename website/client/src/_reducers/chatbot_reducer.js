@@ -1,17 +1,22 @@
 import {
   DELETE_ALL_MESSAGE,
   GET_ALL_MESSAGE,
-  GET_CHATGPT_MESSAGE,
+  POST_TALK_CHATBOT,
+  POST_TALK_USER,
 } from "../_actions/types";
 
 export default function chatbot(state = { answer: [] }, action) {
   // eslint-disable-next-line default-case
   switch (action.type) {
-    case GET_CHATGPT_MESSAGE:
+    case POST_TALK_USER:
       return {
         ...state,
-        userid: action.userid,
-        gpt_answer: action.payload,
+        message: action.payload,
+      };
+    case POST_TALK_CHATBOT:
+      return {
+        ...state,
+        message: action.payload,
       };
     case GET_ALL_MESSAGE:
       return {
